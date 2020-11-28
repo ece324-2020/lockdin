@@ -30,8 +30,6 @@ for filename in os.listdir(directory):
 for i in range(len(img_list)):
   img_list[i] = img_list[i][:-4] # removing the file extension ".PNG"
 
-img_list
-
 def cropper(img_list):
   for im_dir in img_list:
     im = Image.open(im_dir + '.PNG')

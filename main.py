@@ -15,8 +15,8 @@ import torch.optim as optim
 def main():
     
     #--------------------- Hyperparameters ---------------------# 
-    batch_size = 10
-    epochs = 150
+    batch_size = 12
+    epochs = 50
     learning_rate = 0.1
     sample_rate = 1
     seed = 3
@@ -36,7 +36,7 @@ def main():
     #--------------------- Running Training ---------------------# 
     architecture = lockdin_tools(Full_Model)
     
-    architecture.overfit_training(epochs, valid_data)
+    print(architecture.best_learning_rate(epochs, train_data, valid_data, test_data, [0.01, 0.5, 0.1]))
     
     #--------------------- Display Results ---------------------# 
     

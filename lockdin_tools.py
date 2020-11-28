@@ -20,9 +20,31 @@ class lockdin_tools:
         self.test_loss = 0
         self.test_acc = 0
         self.total_time = 0
+#-----------------------------------------------------------------------------------------------------------#
+# Takes a list of learning rates in and outputs the one that achieves the lowest loss for given hyperparameters
+    def best_learning_rate(self, epochs, train_data, valid_data, test_data, lr_list):
+        
+        self.best_lr = 0
+        self.lowest_loss = 9999
+        
+        for i in lr_list:
+            
+            # Update learning rate
+            self.model.change_learning_rate(i)
+            
+            # Running normal training
+            self.regular_training(epochs, train_data, valid_data, test_data, epochs-1)
+            
+            # Change best if learning rate i is better than current best
+            if self.test_loss < self.lowest_loss:
+                
+                self.lowest_loss = self.test_loss
+                self.best_lr = i
+
+        return self.best_lr
         
 #-----------------------------------------------------------------------------------------------------------#
-       
+  # Overfit training that only runs the model on one set of data. Should converge to 100% accuracy.      
     def overfit_training(self, epochs, overfit_data):
         
         # Reset containers for data
@@ -45,6 +67,8 @@ class lockdin_tools:
         
         # Time taken in seconds
         self.total_time = end - start
+        
+        return True
     
 #-----------------------------------------------------------------------------------------------------------# 
 # A training loop that utilizes training, validaiton and test data sets.
@@ -96,6 +120,8 @@ class lockdin_tools:
         self.test_loss = self.loss
         self.test_acc = self.acc
         
+        return True
+        
 #-----------------------------------------------------------------------------------------------------------#      
 # Training loop that fully loops over one batch of data 
     def batch_train_loop(self, data, train):
@@ -110,6 +136,8 @@ class lockdin_tools:
         
         # Get average batch results
         self.loss, self.acc = (self.model).get_results(i+1)
+        
+        return True
     
 #-----------------------------------------------------------------------------------------------------------#    
 # Displays the results of the last training loop that was run. 
@@ -176,5 +204,7 @@ class lockdin_tools:
         if (self.total_time > 0):
             
             print('Time to Train                :', self.total_time)
+            
+        return true
         
     

@@ -9,6 +9,6 @@ def accuracy_calculator(ouputs, labels):
 
     for i in range(len(predictions.indices)):
         if (predictions.indices[i] == (labels[i]==1).nonzero()):
-            accuracy += 1/len(labels)
+            accuracy += 1
                 
-    return accuracy    
+    return accuracy/len(labels)  

@@ -59,6 +59,11 @@ class NNFullModel:
     # Steps back on the model's parameters (can only setback once)
     def backstep(self):
         (self.model).load_state_dict(torch.load('./rcnt_model_backstep_param'))
+        
+    # Change learning rate of all parameters
+    def change_learning_rate(learning_rate):
+        for i in self.optimizer.param_groups:
+            i['lr'] = learning_rate
 
     
     

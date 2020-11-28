@@ -11,16 +11,46 @@ class lockdin_tools:
         
         self.model = full_model
         
+        # Intialize containers
+        self.train_loss = []
+        self.train_acc = []
+        self.validation_loss = []
+        self.validation_acc = []
+        self.best_validation_acc = [0,0]
+        self.test_loss = 0
+        self.test_acc = 0
+        self.total_time = 0
+        
 #-----------------------------------------------------------------------------------------------------------#
        
-    def overfit_training(self):
-        pass
+    def overfit_training(self, epochs, overfit_data):
+        
+        # Reset containers for data
+        self.train_loss = []
+        self.train_acc = []
+        
+        start = time.time()        
+        # Run training        
+        for epoch in range(epochs):
+            
+            # Running Training
+            self.batch_train_loop(overfit_data, True)
+            
+            # Record Training Data
+            self.train_loss.append(self.loss)
+            self.train_acc.append(self.acc)
+            
+            print('Epoch:', epoch , '||| Training Loss:', self.loss , '||| Training Accuracy:', self.acc)            
+        end = time.time()
+        
+        # Time taken in seconds
+        self.total_time = end - start
     
 #-----------------------------------------------------------------------------------------------------------# 
 # A training loop that utilizes training, validaiton and test data sets.
     def regular_training(self, epochs, train_data, valid_data, test_data, sample_rate):
     
-        # Create containers for data
+        # Reset containers for data
         self.train_loss = []
         self.train_acc = []
         self.validation_loss = []
@@ -79,7 +109,7 @@ class lockdin_tools:
                 (self.model).run_model(images, labels, train)
         
         # Get average batch results
-        self.loss, self.acc = (self.model).get_results(i)
+        self.loss, self.acc = (self.model).get_results(i+1)
     
 #-----------------------------------------------------------------------------------------------------------#    
 # Displays the results of the last training loop that was run. 

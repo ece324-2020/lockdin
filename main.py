@@ -15,9 +15,9 @@ import torch.optim as optim
 def main():
     
     #--------------------- Hyperparameters ---------------------# 
-    batch_size = 22
-    epochs = 100
-    learning_rate = 0.05
+    batch_size = 10
+    epochs = 150
+    learning_rate = 0.1
     sample_rate = 1
     seed = 3
     
@@ -25,6 +25,7 @@ def main():
     train_data, valid_data, test_data = setcreation(seed, batch_size)
     
     #--------------------- Model Initialization ---------------------#
+    torch.manual_seed(seed)
     NN_model = CNN_2Layer(10,32)
     optimizer = torch.optim.SGD(NN_model.parameters(),lr=learning_rate)
     loss_function = torch.nn.MSELoss()
@@ -35,7 +36,7 @@ def main():
     #--------------------- Running Training ---------------------# 
     architecture = lockdin_tools(Full_Model)
     
-    architecture.regular_training(epochs, train_data, valid_data, test_data, sample_rate)
+    architecture.overfit_training(epochs, valid_data)
     
     #--------------------- Display Results ---------------------# 
     

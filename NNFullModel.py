@@ -32,6 +32,7 @@ class NNFullModel:
         if train == True: loss.backward()
         
         # Gradient Step
+        torch.save(self.model.state_dict(), './rcnt_model_backstep_param')
         if train == True: self.optimizer.step()
         
         # Record Accuracy and Loss
@@ -54,6 +55,10 @@ class NNFullModel:
     # Returns the outputs of the last modelrun that was called.
     def get_last_outputs(self):
         return self.outputs
+    
+    # Steps back on the model's parameters (can only setback once)
+    def backstep(self):
+        (self.model).load_state_dict(torch.load('./rcnt_model_backstep_param'))
 
     
     

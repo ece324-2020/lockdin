@@ -50,7 +50,10 @@ class lockdin_tools:
                 self.validation_acc.append(self.acc)
                 
                 # Update best validation accuracy
-                if (self.acc > self.best_validation_acc[0]): self.best_validation_acc = [self.acc, epoch]
+                if (self.acc > self.best_validation_acc[0]): 
+                    self.best_validation_acc = [self.acc, epoch]
+                else:
+                    self.model.backstep()
                 
                 print('Epoch:', epoch , '||| Validation Loss:', self.loss , '||| Validation Accuracy:', self.acc)
         end = time.time()
@@ -131,7 +134,7 @@ class lockdin_tools:
             print('Final Training Loss          :', self.train_loss[len(self.train_loss)-1])
         
         if ( len(self.validation_acc) > 0 ): 
-            print('Best Validation Accuracy     :', self.best_validation_acc[0], 'achieved at epoch', self.best_validation_acc[1])
+            print('Best Validation Accuracy     :', self.best_validation_acc[0]*100, 'achieved at epoch', self.best_validation_acc[1])
             print('Final Validation Accuracy    :', self.validation_acc[len(self.validation_acc)-1]*100)
             print('Final Validation Loss        :', self.validation_loss[len(self.validation_loss)-1])
         

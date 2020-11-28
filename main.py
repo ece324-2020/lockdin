@@ -16,7 +16,7 @@ def main():
     
     #--------------------- Hyperparameters ---------------------# 
     batch_size = 22
-    epochs = 150
+    epochs = 100
     learning_rate = 0.05
     sample_rate = 1
     seed = 3

@@ -54,8 +54,8 @@ def setcreation(seed, batch_size):
     imgs_valid = imgs_valid.astype(np.float32)
     labels_train = labels_train.astype(np.float32)
     labels_valid = labels_valid.astype(np.float32)
-    imgs_test = imgs_train.astype(np.float32)
-    labels_test = labels_train.astype(np.float32)
+    imgs_test = imgs_test.astype(np.float32)
+    labels_test = labels_test.astype(np.float32)
     
     
     

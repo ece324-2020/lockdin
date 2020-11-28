@@ -56,5 +56,5 @@ def cropper(img_list):
     box_3 = (700, 695, 1220, 985)
     im_crop = im.crop(box_3)
     im_crop.save('cropped/' + im_dir + '7.PNG')
-
+    
 cropper(img_list)

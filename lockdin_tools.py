@@ -20,6 +20,7 @@ class lockdin_tools:
         self.test_loss = 0
         self.test_acc = 0
         self.total_time = 0
+        
 #-----------------------------------------------------------------------------------------------------------#
 # Takes a list of learning rates in and outputs the one that achieves the lowest loss for given hyperparameters
     def best_learning_rate(self, epochs, train_data, valid_data, test_data, lr_list):
@@ -109,7 +110,7 @@ class lockdin_tools:
                 else:
                     self.model.backstep()
                 
-                print('Epoch:', epoch , '||| Validation Loss:', self.loss , '||| Validation Accuracy:', self.acc)
+                print('         ', '||| Validation Loss:', self.loss , '||| Validation Accuracy:', self.acc)
         end = time.time()
         
         # Time taken in seconds
@@ -206,5 +207,35 @@ class lockdin_tools:
             print('Time to Train                :', self.total_time)
             
         return True
+    
+#-----------------------------------------------------------------------------------------------------------# 
+# Asks the user if they want to save the model, and saves it  to the inputed path. 
+    def save_model(self):
+    
+        while True:
         
+            print('Do you want to save the model? (Y or N)\n')
+            sentence = input()
+        
+#-----------------------------------------------------------------------------------------------------------# 
+# Asks the user if they want to save the model, and saves it  to the inputed path. 
+    def save_model(self):
+    
+        while True:
+        
+            print('Do you want to save the model? (Y or N)\n')
+            sentence = input()
+        
+            if (str(sentence) == 'Y'):
+            
+                print('Enter Model Name:\n')
+                name = input()
+            
+                self.model.save_model('./saved_models/' + str(name) + '.pt')
+                break
+        
+            elif (str(sentence) == 'N'):
+                break
+            
+        return True
     

@@ -1,7 +1,7 @@
 from NNFullModel import *
 from models import *
 from lockdin_tools import *
-from dataprocess import *
+from setcreation import *
 from accuracy_calculator import *
 
 import argparse

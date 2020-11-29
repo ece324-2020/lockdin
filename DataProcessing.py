@@ -50,14 +50,28 @@ def main():
 def normalize(folder):
     arr = sorted(os.listdir(folder + "Engaged"))
     arr2 = sorted(os.listdir(folder + "Unengaged"))
+    mean1 = [0,0,0,0]
+    std1 = [0,0,0,0]
     for i in range(0,len(arr)):
         if arr[i] != ".DS_Store":
-            print(arr[i])
             path = folder + "Engaged/" + arr[i]
             image = Image.open(path)
             data = np.asarray(image)
-            print(data.shape)
-            print(data[:,:,0].shape)
-            if i == 3:
-                break
+            for a in range(0,4):
+                mean1[a] += np.mean(data[:,:,a])
+                std1[a] += np.std(data[:,:,a])
+    for j in range(0,len(arr2)):
+        if arr[j] != ".DS_Store":
+            path = folder + "Unengaged/" + arr[j]
+            image = Image.open(path)
+            data = np.asarray(image)
+            for b in range(0,4):
+                mean1[b] += np.mean(data[:,:,b])
+                std1[b] += np.std(data[:,:,b])
+    for i in range(0,4):
+        mean1[i] = mean1[i] / (len(arr) + len(arr2))
+        std1[i] = std1[i] / (len(arr) + len(arr2))
+    print(mean1)
+    print(std1)
+
 normalize("new/")

@@ -205,6 +205,6 @@ class lockdin_tools:
             
             print('Time to Train                :', self.total_time)
             
-        return true
+        return True
         
     

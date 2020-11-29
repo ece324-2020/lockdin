@@ -25,10 +25,10 @@ class AdultDataset(data.Dataset):
 def setcreation(seed, batch_size):
     
     # Define Transformation
-    transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+    transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,0.5,0.5), (0.5,0.5,0.5))])
     
     # Import Data
-    mydata = torchvision.datasets.ImageFolder('./training_v2', transform=transform)
+    mydata = torchvision.datasets.ImageFolder('./new', transform=transform)
     
     #Extract Data
     images = []
@@ -37,13 +37,10 @@ def setcreation(seed, batch_size):
         images.append(image.numpy())
         labels.append(label)
         
-    # One Hot Encode Labels
-    oneh_encoder = OneHotEncoder()
-    labels = np.array(labels)
-    labels = oneh_encoder.fit_transform(labels.reshape(-1,1)).toarray()
-    
+    print(images[1])
     # Train Validation Split
     images = np.array(images)
+    labels = np.array(labels)
     imgs_train, imgs_valid, labels_train, labels_valid = train_test_split(images, labels, test_size=0.3, random_state=seed)
     
     # Validation Test Split
@@ -69,4 +66,7 @@ def setcreation(seed, batch_size):
     valid_data = DataLoader(Vdata, batch_size = batch_size)
     test_data = DataLoader(TSTdata, batch_size = batch_size)
     
-    return train_data, valid_data, test_data
+    return train_data, valid_data, test_data, valid_data
+
+
+

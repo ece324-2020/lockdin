@@ -24,6 +24,7 @@ class NNFullModel:
 
         # Get Predictions
         self.outputs = self.model(batch_of_data)
+        #print(self.outputs)
 
         # Computing Loss
         loss = self.loss_function(input = self.outputs.squeeze(), target=labels.float())

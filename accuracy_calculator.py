@@ -1,14 +1,13 @@
 import torch
 
 #-----------------------------------------------------------------------------------------------------------#
-def accuracy_calculator(ouputs, labels):
+def accuracy_calculator(outputs, labels):
         
-    predictions = torch.max(ouputs,1)
-    
     accuracy = 0
 
-    for i in range(len(predictions.indices)):
-        if (predictions.indices[i] == (labels[i]==1).nonzero()):
+    for i in range(len(labels)):
+        if ((outputs[i].item() >= 0.5) and (labels[i].item() == 1)) or ((outputs[i].item() < 0.5) and (labels[i].item() == 0)):
             accuracy += 1
+        
                 
     return accuracy/len(labels)  

@@ -86,7 +86,6 @@ class NNFullModel:
         outputs = self.model(data)
         outputs = outputs.detach().numpy()
         predictions = self.decision_function(outputs, label)
-        print(predictions, label)
         cm = sklearn.metrics.confusion_matrix(predictions, label)
         
         return cm

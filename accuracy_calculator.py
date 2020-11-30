@@ -10,4 +10,20 @@ def accuracy_calculator(outputs, labels):
             accuracy += 1
         
                 
-    return accuracy/len(labels)  
+    return accuracy/len(labels)
+
+#-----------------------------------------------------------------------------------------------------------#
+def decision_function(outputs, labels):
+    
+    predictions = []
+    
+    for i in range(len(labels)):
+        if (outputs[i].item() >= 0.5):
+            
+            predictions.append(1)
+            
+        else:
+            
+            predictions.append(0)
+        
+    return predictions

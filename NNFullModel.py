@@ -1,16 +1,18 @@
 import torch
+import sklearn
 
 #-----------------------------------------------------------------------------------------------------------# 
 # Class that can run a NN model for a single batch of data and compute the accuracy and loss.
 class NNFullModel:
 
 #-----------------------------------------------------------------------------------------------------------# 
-    def __init__(self, NN_model, loss_function, optimizer, accuracy_calculator):
+    def __init__(self, NN_model, loss_function, optimizer, accuracy_calculator, decision_function):
         
         self.model = NN_model
         self.loss_function= loss_function
         self.optimizer = optimizer
         self.accuracy_calculator = accuracy_calculator
+        self.decision_function = decision_function
         
         self.runningaccuracy = 0
         self.runningloss = 0
@@ -77,7 +79,18 @@ class NNFullModel:
         
         return True
 
-    
+#-----------------------------------------------------------------------------------------------------------# 
+# Creates a confusion matrix for the data and it's labels
+    def confusion_matrix(self, data, label):
+        
+        outputs = self.model(data)
+        outputs = outputs.detach().numpy()
+        predictions = self.decision_function(outputs, label)
+        print(predictions, label)
+        cm = sklearn.metrics.confusion_matrix(predictions, label)
+        
+        return cm
+        
     
         
         

@@ -3,24 +3,19 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 #-----------------------------------------------------------------------------------------------------------#
-# Model with 5 layer convolutional network
-class CNN_5Layer(nn.Module):
+class CNN_1(nn.Module):
     
     
     def __init__(self, number_of_kernels, first_layer_neurons):
 
-        super(CNN_5Layer, self).__init__()
+        super(CNN_1, self).__init__()
         self.number_of_kernels = number_of_kernels
         
         self.conv1 = nn.Conv2d(3,number_of_kernels,3)
         self.conv2 = nn.Conv2d(number_of_kernels,number_of_kernels,3)
-        self.conv3 = nn.Conv2d(number_of_kernels,number_of_kernels,3)
-        self.conv4 = nn.Conv2d(number_of_kernels,number_of_kernels,3)
-        self.conv5 = nn.Conv2d(number_of_kernels,number_of_kernels,3)
         self.pool = nn.MaxPool2d(2,2)
-        self.fc1 = nn.Linear(number_of_kernels*7*14,first_layer_neurons) 
-        self.fc2 = nn.Linear(first_layer_neurons,10)
-        self.fc3 = nn.Linear(10,1)
+        self.fc1 = nn.Linear(number_of_kernels*71*128,first_layer_neurons) 
+        self.fc2 = nn.Linear(first_layer_neurons,1)
 
     def forward(self, x):
         
@@ -28,16 +23,9 @@ class CNN_5Layer(nn.Module):
         #print(x.size())
         x = self.pool(F.relu(self.conv2(x)))
         #print(x.size())
-        x = self.pool(F.relu(self.conv3(x)))
-        #print(x.size())
-        x = self.pool(F.relu(self.conv4(x)))
-        #print(x.size())
-        x = self.pool(F.relu(self.conv5(x)))
-        #print(x.size())
-        x = x.view(-1, self.number_of_kernels*7*14) # make x an tensor to input into MLP
+        x = x.view(-1, self.number_of_kernels*71*128) # make x an tensor to input into MLP
         x = F.relu(self.fc1(x))
-        x = F.relu(self.fc2(x))
-        x = self.fc3(x).squeeze()     
+        x = (F.sigmoid(self.fc2(x))).squeeze()
         
         return x 
 

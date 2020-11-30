@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+import torch
 
 #-----------------------------------------------------------------------------------------------------------# 
 # Different training loops, data representaions and more for the lockdin project.
@@ -17,6 +18,7 @@ class lockdin_tools:
         self.validation_loss = []
         self.validation_acc = []
         self.best_validation_acc = [0,0]
+        self.best_validation_loss = 0
         self.test_loss = 0
         self.test_acc = 0
         self.total_time = 0
@@ -81,6 +83,7 @@ class lockdin_tools:
         self.validation_loss = []
         self.validation_acc = []
         self.best_validation_acc = [0,0]
+        self.best_validation_loss = 0
         
         start = time.time()        
         # Run the training
@@ -105,8 +108,9 @@ class lockdin_tools:
                 self.validation_acc.append(self.acc)
                 
                 # Update best validation accuracy
-                if (self.acc > self.best_validation_acc[0]): 
+                if ((self.acc > self.best_validation_acc[0]) & (self.loss < self.best_validation_loss)): 
                     self.best_validation_acc = [self.acc, epoch]
+                    self.best_validation_loss = self.loss
                 else:
                     self.model.backstep()
                 
@@ -239,3 +243,26 @@ class lockdin_tools:
             
         return True
     
+#-----------------------------------------------------------------------------------------------------------# 
+# Creates a confusion matrix for the given batched data.
+    def confusion_matrix(self, batched_data):
+        
+        all_images = []
+        corrisponding_labels = []
+        
+        for (i, batch) in enumerate(batched_data):
+            images, labels = batch
+            
+            for j in range(len(images)):
+                #print(labels[j], images[j]) 
+                all_images.append(images[j].numpy())
+                corrisponding_labels.append(labels[j].numpy())
+            
+        all_images = np.array(all_images)
+        corrisponding_labels = np.array(corrisponding_labels)
+        all_images = torch.from_numpy(all_images)
+        
+        cm = self.model.confusion_matrix(all_images, corrisponding_labels)
+        print(cm)
+        
+        return True

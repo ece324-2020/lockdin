@@ -34,8 +34,9 @@ class NNFullModel:
         if train == True: loss.backward()
         
         # Gradient Step
-        torch.save(self.model.state_dict(), './rcnt_model_backstep_param')
-        if train == True: self.optimizer.step()
+        if train == True:
+            torch.save(self.model.state_dict(), './rcnt_model_backstep_param')
+            self.optimizer.step()
         
         # Record Accuracy and Loss
         self.runningloss += float(loss)
@@ -62,9 +63,9 @@ class NNFullModel:
         return self.outputs
 
 #-----------------------------------------------------------------------------------------------------------# 
-# Steps back on the model's parameters (can only setback once)
-    def backstep(self):
-        (self.model).load_state_dict(torch.load('./rcnt_model_backstep_param'))
+# Steps back on the model's parameters (can only stepback once)
+    def load_parameters(self, path):
+        (self.model).load_state_dict(torch.load(path))
 
 #-----------------------------------------------------------------------------------------------------------# 
 # Change learning rate of all parameters
@@ -79,6 +80,11 @@ class NNFullModel:
         
         return True
 
+#-----------------------------------------------------------------------------------------------------------# 
+# Save the model parameters to the inputed path
+    def save_model_parameters(self, path):
+        torch.save(self.model.state_dict(), path)
+        
 #-----------------------------------------------------------------------------------------------------------# 
 # Creates a confusion matrix for the data and it's labels
     def confusion_matrix(self, data, label):

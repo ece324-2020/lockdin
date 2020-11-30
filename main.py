@@ -15,9 +15,9 @@ import torch.optim as optim
 def main():
     
     #--------------------- Hyperparameters ---------------------# 
-    batch_size = 30
-    epochs = 100
-    learning_rate = 0.001
+    batch_size = 15
+    epochs = 1
+    learning_rate = 0.01
     sample_rate = 1
     seed = 10
     
@@ -26,7 +26,7 @@ def main():
     
     #--------------------- Model Initialization ---------------------#
     torch.manual_seed(seed)
-    NN_model = CNN_2(40, 35)
+    NN_model = CNN_2(40, 10)
     optimizer = torch.optim.SGD(NN_model.parameters(),lr=learning_rate)
     loss_function = torch.nn.BCELoss()
     acc = accuracy_calculator

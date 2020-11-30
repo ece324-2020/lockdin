@@ -49,7 +49,7 @@ class CNN_2(nn.Module):
         x = self.pool(F.relu(self.conv1(x)))
         #print(x.size())
         x = self.pool(F.relu(self.conv2(x)))
-        print(x.size())
+        #print(x.size())
         x = x.view(-1, self.number_of_kernels*34*63) # make x an tensor to input into MLP
         x = F.relu(self.fc1(x))
         x = (F.sigmoid(self.fc2(x))).squeeze()

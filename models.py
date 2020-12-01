@@ -38,10 +38,10 @@ class CNN_2(nn.Module):
         super(CNN_2, self).__init__()
         self.number_of_kernels = number_of_kernels
         
-        self.conv1 = nn.Conv2d(3,number_of_kernels,3)
-        self.conv2 = nn.Conv2d(number_of_kernels,number_of_kernels,3)
+        self.conv1 = nn.Conv2d(3,number_of_kernels,10)
+        self.conv2 = nn.Conv2d(number_of_kernels,number_of_kernels,2)
         self.pool = nn.MaxPool2d(2,2)
-        self.fc1 = nn.Linear(number_of_kernels*34*63,first_layer_neurons) 
+        self.fc1 = nn.Linear(number_of_kernels*33*62,first_layer_neurons) 
         self.fc2 = nn.Linear(first_layer_neurons,1)
 
     def forward(self, x):
@@ -50,12 +50,39 @@ class CNN_2(nn.Module):
         #print(x.size())
         x = self.pool(F.relu(self.conv2(x)))
         #print(x.size())
-        x = x.view(-1, self.number_of_kernels*34*63) # make x an tensor to input into MLP
+        x = x.view(-1, self.number_of_kernels*33*62) # make x an tensor to input into MLP
         x = F.relu(self.fc1(x))
         x = (F.sigmoid(self.fc2(x))).squeeze()
         
         return x 
 
+#-----------------------------------------------------------------------------------------------------------#
+class CNN_3(nn.Module):
+    
+    
+    def __init__(self, number_of_kernels, first_layer_neurons):
+
+        super(CNN_3, self).__init__()
+        self.number_of_kernels = number_of_kernels
+        
+        self.conv1 = nn.Conv2d(3,number_of_kernels,10)
+        self.conv2 = nn.Conv2d(number_of_kernels,number_of_kernels,2)
+        self.pool = nn.MaxPool2d(2,2)
+        self.fc1 = nn.Linear(number_of_kernels*33*62,first_layer_neurons) 
+        self.fc2 = nn.Linear(first_layer_neurons,1)
+        self.BN = nn.BatchNorm2d(number_of_kernels)
+
+    def forward(self, x):
+        
+        x = self.pool(F.relu(self.BN(self.conv1(x))))
+        x = self.pool(F.relu(self.BN(self.conv2(x)))) 
+        #print(x.size())
+        x = x.view(-1, self.number_of_kernels*33*62) # make x an tensor to input into MLP
+        x = F.relu(self.fc1(x))
+        x = (F.sigmoid(self.fc2(x))).squeeze()
+        
+        return x 
+    
 #-----------------------------------------------------------------------------------------------------------#
 
 class baseline(nn.Module):

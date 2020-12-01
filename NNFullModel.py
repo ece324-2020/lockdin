@@ -95,7 +95,23 @@ class NNFullModel:
         cm = sklearn.metrics.confusion_matrix(predictions, label)
         
         return cm
+
+#-----------------------------------------------------------------------------------------------------------# 
+# Returns the images that were predicted incorrect
+    def incorrect_predictions(self, data, label):
         
+        outputs = self.model(data)
+        outputs = outputs.detach().numpy()
+        predictions =  self.decision_function(outputs, label)
+        
+        data_guessed_incorect = []
+        
+        for i in range(len(predictions)):
+            
+            if predictions[i] != label[i]:
+                data_guessed_incorect.append([data[i], label[i]])
+        
+        return data_guessed_incorect
     
         
         

@@ -5,6 +5,7 @@ from torch.utils.data import DataLoader
 import torch.utils.data as data
 import numpy as np
 from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
 
 class AdultDataset(data.Dataset):
 
@@ -62,7 +63,7 @@ def setcreation(seed, batch_size):
     # Train Validation Split
     images = images.numpy()
     labels = labels.numpy()
-    imgs_train, imgs_valid, labels_train, labels_valid = train_test_split(images, labels, test_size=0.3, random_state=seed)
+    imgs_train, imgs_valid, labels_train, labels_valid = train_test_split(images, labels, test_size=0.35, random_state=seed)
 
     # Validation Test Split
     imgs_test, imgs_valid, labels_test, labels_valid = train_test_split(imgs_valid, labels_valid, test_size=0.4, random_state=seed)
@@ -88,5 +89,3 @@ def setcreation(seed, batch_size):
     test_data = DataLoader(TSTdata, batch_size = batch_size)
 
     return train_data, valid_data, test_data, valid_data
-
-#setcreation(3, 10)

@@ -1,5 +1,14 @@
 
-def feature_maps1():
+import torch
+import torchvision
+import torchvision.transforms as transforms
+from torch.utils.data import DataLoader
+import torch.utils.data as data
+import numpy as np
+from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+
+def feature_maps1(NN_model):
     transform = transforms.Compose([transforms.ToTensor()])
     dataset = torchvision.datasets.ImageFolder('./finalDataset', transform=transform)
     activation = {}
@@ -13,13 +22,13 @@ def feature_maps1():
     data.unsqueeze_(0).reshape
     output = NN_model(data)
     act = activation['conv1'].squeeze()
-    fig, axarr = plt.subplots(5,8)
+    fig, axarr = plt.subplots(5,3)
     for j in range(0,5):
-        for idx in range(0,8):
-            axarr[j][idx].imshow(act[j*8+idx])
+        for idx in range(0,3):
+            axarr[j][idx].imshow(act[j*3+idx])
     plt.show()
 
-def feature_maps1():
+def feature_maps2(NN_model):
     transform = transforms.Compose([transforms.ToTensor()])
     dataset = torchvision.datasets.ImageFolder('./finalDataset', transform=transform)
     activation = {}
@@ -32,9 +41,9 @@ def feature_maps1():
     data, _ = dataset[0]
     data.unsqueeze_(0).reshape
     output = NN_model(data)
-    act = activation['conv1'].squeeze()
-    fig, axarr = plt.subplots(5,8)
+    act = activation['conv2'].squeeze()
+    fig, axarr = plt.subplots(5,2)
     for j in range(0,5):
-        for idx in range(0,8):
-            axarr[j][idx].imshow(act[j*8+idx])
+        for idx in range(0,2):
+            axarr[j][idx].imshow(act[j*2+idx])
     plt.show()

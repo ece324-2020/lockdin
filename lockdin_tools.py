@@ -89,6 +89,7 @@ class lockdin_tools:
         for epoch in range(epochs):
             
             # Running Training
+            self.model.model.train()
             self.batch_train_loop(train_data, True)
             
             # Record Training Data
@@ -100,6 +101,7 @@ class lockdin_tools:
             # Validation Loop 
             if epoch % sample_rate == 0:
                 
+                self.model.model.eval()
                 self.batch_train_loop(valid_data, False)
 
                 # Record Training Data
@@ -217,15 +219,6 @@ class lockdin_tools:
             print('Do you want to save the model? (Y or N)\n')
             sentence = input()
         
-#-----------------------------------------------------------------------------------------------------------# 
-# Asks the user if they want to save the model, and saves it  to the inputed path. 
-    def save_model(self):
-    
-        while True:
-        
-            print('Do you want to save the model? (Y or N)\n')
-            sentence = input()
-        
             if (str(sentence) == 'Y'):
             
                 print('Enter Model Name:\n')
@@ -250,7 +243,7 @@ class lockdin_tools:
             images, labels = batch
             
             for j in range(len(images)):
-                #print(labels[j], images[j]) 
+                
                 all_images.append(images[j].numpy())
                 corrisponding_labels.append(labels[j].numpy())
             
@@ -261,4 +254,34 @@ class lockdin_tools:
         cm = self.model.confusion_matrix(all_images, corrisponding_labels)
         print(cm)
         
+        return True
+
+#-----------------------------------------------------------------------------------------------------------# 
+# Creates a confusion matrix for the given batched data.
+    def print_incorrect_predictions(self, batched_data):
+        
+        all_images = []
+        corrisponding_labels = []
+        
+        for (i, batch) in enumerate(batched_data):
+            images, labels = batch
+            
+            for j in range(len(images)):
+                 
+                all_images.append(images[j].numpy())
+                corrisponding_labels.append(labels[j].numpy())
+            
+        all_images = np.array(all_images)
+        corrisponding_labels = np.array(corrisponding_labels)
+        all_images = torch.from_numpy(all_images)
+        
+        incorrect_data = self.model.incorrect_predictions(all_images, corrisponding_labels)
+        
+        for i in incorrect_data:
+            img = i[0] / 2 + 0.5
+            npimg = img.numpy()
+            plt.imshow(np.transpose(npimg, (1, 2, 0)))
+            plt.show()
+            print('Label:', i[1])
+            
         return True
